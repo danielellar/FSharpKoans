@@ -57,9 +57,36 @@ module ``about the stock example`` =
     // Feel free to add extra [<Koan>] members here to write
     // tests for yourself along the way. You can also try 
     // using the F# Interactive window to check your progress.
+    let splitCommas (x:string) =
+        x.Split([|','|])
+
+    let getDistance (row : string[]) =
+        let openP = row.[1]
+        let closeP = row.[4]
+        let openD = System.Decimal.Parse(openP, System.Globalization.CultureInfo.InvariantCulture)
+        let closeD = System.Decimal.Parse(closeP, System.Globalization.CultureInfo.InvariantCulture)
+        System.Math.Abs(openD - closeD)
+ 
+    let splitStockData stockData = 
+        List.map splitCommas stockData
+
+    let greatestDistanceAndTime rows = 
+        let mutable (bigT, bigD) = ("",0.0m)
+        for ((time: string), distance) in rows do
+            if distance > bigD then 
+                bigT <- time
+                bigD <- distance            
+        (bigT, bigD)
+    
+    let greatestDistance days =
+        let split = splitStockData days
+        let timeAndDistance = List.map (fun  (x:string[]) -> (x.[0] ,getDistance x)) split.Tail        
+        greatestDistanceAndTime timeAndDistance
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let (greatestTime, _) = greatestDistance stockData
+        let result = greatestTime
+      
         
         AssertEquality "2012-03-13" result

@@ -57,7 +57,7 @@ module ``about dot net collections`` =
         let original = [0..5]
         let result = Seq.skip 2 original
         
-        AssertEquality result (Seq.skip 0 [2..5])
+        AssertEquality result  {2..5}
 
 
     [<Koan>]
@@ -82,4 +82,4 @@ module ``about dot net collections`` =
         let names = [| "Harry"; "Lloyd"; "Nicholas"; "Mary"; "Joe"; |]
         let result = Seq.maxBy getNameLength names 
         
-        AssertEquality result __
+        AssertEquality result "Nicholas"
